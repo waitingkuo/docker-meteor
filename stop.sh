@@ -8,5 +8,7 @@ fi
 HOST=${BASH_ARGV[1]}
 APP_NAME=${BASH_ARGV[0]}
 
-ssh ${HOST} sudo docker kill `sudo docker ps | grep myapp | awk '{print $1}'`
+echo $HOST
+
+ssh ${HOST} sudo docker kill "\`sudo docker ps | grep ${APP_NAME} | awk '{print \$1}'\`"
 
