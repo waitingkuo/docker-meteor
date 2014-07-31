@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ${BASH_ARGC} -ne 3 ]; then
-  echo [usage] ./deply HOST APP_NAME BUNDLE_FILE
+  echo [usage] ./deploy HOST APP_NAME BUNDLE_FILE
   exit
 fi
 
