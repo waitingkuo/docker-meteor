@@ -11,28 +11,20 @@ BUNDLE_FILE=${BASH_ARGV[0]}
 
 
 DOCKERFILE="
-FROM ubuntu
 
+FROM node
 MAINTAINER waitingkuo0527@gmail.com
 
-# install node.js
-RUN apt-get update
-RUN apt-get install -y python-software-properties python g++ make
+RUN curl https://install.meteor.com | /bin/sh
 
-RUN echo 'deb http://archive.ubuntu.com/ubuntu precise universe' >> /etc/apt/sources.list
-RUN add-apt-repository -y ppa:chris-lea/node.js
-RUN apt-get update
-RUN apt-get install -y nodejs
+ADD . ./meteorsrc
+WORKDIR /meteorsrc
+RUN meteor build --directory /var/www/app
 
-ADD bundle.tar.gz bundle.tar.gz
+WORKDIR /var/www/app
+RUN cd bundle/programs/server && npm install
 
-RUN tar zxvf bundle.tar.gz
-RUN cd bundle; rm -r programs/server/node_modules/fibers
-RUN cd bundle; npm install fibers@1.0.1
-
-EXPOSE 80
-
-ENTRYPOINT cd bundle; PORT=80 node main.js
+CMD node ./main.js
 "
 
 
